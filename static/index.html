@@ -1,0 +1,55 @@
+<html>
+  <head>
+    <script src="/socket.io/socket.io.js"></script>
+    <script src="jquery.min.js"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+  </head>
+  <body>
+    color 1 red
+    <input type="range" id="c1:red" min="0" max="255" step="1">
+    <br>
+    color 1 green
+    <input type="range" id="c1:green" min="0" max="255" step="1">
+    <br>
+    color 1 blue
+    <input type="range" id="c1:blue" min="0" max="255" step="1">
+    <br>
+    color 2 red
+    <input type="range" id="c2:red" min="0" max="255" step="1">
+    <br>
+    color 2 green
+    <input type="range" id="c2:green" min="0" max="255" step="1">
+    <br>
+    color 2 blue
+    <input type="range" id="c2:blue" min="0" max="255" step="1">
+    <br>
+    color speed
+    <input type="range" id="c:speed" min="0" max="5000">
+    <br>
+    strobe
+    <input type="range" id="strobe" min="0" max="1" step="0.05">
+    <br>
+    x speed
+    <input type="range" id="x:speed" min="0" max="5000">
+    <br>
+    y speed
+    <input type="range" id="y:speed" min="0" max="5000">
+    <input id="sweep" type="checkbox">
+    <br>
+    <script>
+        var socket = io();
+      socket.on('values-up', function (values) {
+        for(value in values){
+          let element = document.getElementById(value)
+          element.value = values[value]
+        }
+      });
+      $('input').change(function(){
+        socket.emit("value-up",{
+          name:$(this).attr('id'),
+          value:$(this).val()
+        })
+      })
+    </script>
+  </body>
+</html>
